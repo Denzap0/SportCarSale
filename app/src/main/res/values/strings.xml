@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SportCarSale</string>
+    <string name="login_register">Login/Register</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="back_button">back button</string>
 </resources>
