@@ -1,4 +1,6 @@
-package com.example.sportcarsale.Model
+package com.example.sportcarsale.Model.data
+
+import com.example.sportcarsale.Model.data.*
 
 data class Car(
     var brand: String?,

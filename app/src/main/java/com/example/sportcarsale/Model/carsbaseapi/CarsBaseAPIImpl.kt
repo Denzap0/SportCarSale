@@ -3,12 +3,13 @@ package com.example.sportcarsale.Model.carsbaseapi
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.sportcarsale.Model.*
+import com.example.sportcarsale.Model.data.*
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FirebaseFirestore
 
 class CarsBaseAPIImpl() : CarsBaseAPI {
 
@@ -20,17 +21,18 @@ class CarsBaseAPIImpl() : CarsBaseAPI {
     val allCarsLiveData: LiveData<List<Car>> = allCarsMutLiveData
     private val userCarsMutLiveData = MutableLiveData<List<Car>>()
     val userCarsLiveData: LiveData<List<Car>> = userCarsMutLiveData
-    private val maxIdValueEventListener =
-        maxIdRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                Log.d("BBBBBB", snapshot.toString())
+    private val cloudFireStore = FirebaseFirestore.getInstance()
+
+    init {
+        cloudFireStore.collection("maxId")
+            .get()
+            .addOnCompleteListener { task ->
+                count = task.result?.documents?.get(0)?.data?.getValue("maxid").toString().toInt()
+
+
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-
-        })
+    }
 
 
     private fun updateAllCars(snapshot: DataSnapshot) {
@@ -56,7 +58,7 @@ class CarsBaseAPIImpl() : CarsBaseAPI {
             )
             carsList.add(curCar)
         }
-        count = snapshot.children.last().key?.toInt()
+
         allCarsMutLiveData.value = carsList
     }
 

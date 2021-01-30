@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.sportcarsale.Model.Car
+import com.example.sportcarsale.Model.data.Car
 import com.example.sportcarsale.R
 
 class CarsListAdapter(private val itemClickListener: (Car) -> Unit) :

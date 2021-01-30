@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sportcarsale.Model.Car
+import com.example.sportcarsale.Model.data.Car
 import com.example.sportcarsale.R
 import com.example.sportcarsale.Service.allcarsfragmentviewmodel.AllCarsFragmentViewModelImpl
 
@@ -32,7 +32,7 @@ class AllCarsFragment : Fragment(), AllCarsFragmentInterface {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.all_cars_fragment,container,false)
+        return inflater.inflate(R.layout.cars_list_fragment,container,false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

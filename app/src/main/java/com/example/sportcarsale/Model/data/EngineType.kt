@@ -1,4 +1,4 @@
-package com.example.sportcarsale.Model
+package com.example.sportcarsale.Model.data
 
 enum class EngineType {
     GASOLINE, DIESEL, HYBRID

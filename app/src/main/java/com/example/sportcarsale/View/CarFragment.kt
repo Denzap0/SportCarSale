@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.example.sportcarsale.Model.Car
+import com.example.sportcarsale.Model.data.Car
 import com.example.sportcarsale.R
 
 class CarFragment(private val car : Car) : Fragment() {
