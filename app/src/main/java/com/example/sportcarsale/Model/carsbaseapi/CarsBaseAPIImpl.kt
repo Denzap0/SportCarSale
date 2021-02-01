@@ -10,13 +10,15 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.*
+import kotlin.properties.Delegates
 
 class CarsBaseAPIImpl() : CarsBaseAPI {
 
-    private var count: Int? = null
+    private val documentId = "Fb4cP9viwOk4Lnicuyqg"
+    private var count by Delegates.notNull<Int>()
     private val db = FirebaseDatabase.getInstance()
     private val carsRef = db.getReference("cars")
-    private val maxIdRef = db.getReference("maxid")
     private val allCarsMutLiveData = MutableLiveData<List<Car>>()
     val allCarsLiveData: LiveData<List<Car>> = allCarsMutLiveData
     private val userCarsMutLiveData = MutableLiveData<List<Car>>()
@@ -27,9 +29,10 @@ class CarsBaseAPIImpl() : CarsBaseAPI {
         cloudFireStore.collection("maxId")
             .get()
             .addOnCompleteListener { task ->
-                count = task.result?.documents?.get(0)?.data?.getValue("maxid").toString().toInt()
-
-
+                task.result?.forEach {
+                    count = it.data.getValue("maxid").toString().toInt()
+                }
+//                count = task.result?.documents?.get(0)?.data?.getValue("maxid").toString().toInt()
             }
 
     }
@@ -39,6 +42,7 @@ class CarsBaseAPIImpl() : CarsBaseAPI {
         val carsList = mutableListOf<Car>()
         snapshot.children.forEach { car ->
             val curCar = Car(
+                id = car.key,
                 brand = car.child("brand").getValue(String::class.java),
                 model = car.child("model").getValue(String::class.java),
                 engineType = car.child("engineType").getValue(EngineType::class.java),
@@ -67,6 +71,7 @@ class CarsBaseAPIImpl() : CarsBaseAPI {
         snapshot.children.forEach { car ->
             if (car.child("ownerUID").getValue(String::class.java) == user.uid) {
                 val curCar = Car(
+                    id = car.key,
                     brand = car.child("brand").getValue(String::class.java),
                     model = car.child("model").getValue(String::class.java),
                     productYear = car.child("productYear").getValue(Int::class.java),
@@ -118,13 +123,16 @@ class CarsBaseAPIImpl() : CarsBaseAPI {
 
 
     override fun addCar(car: Car) {
-        if (count != null) {
-            carsRef.child((count?.plus(1)).toString()).setValue(car)
-            maxIdRef.setValue((count?.plus(1)).toString())
-            count = count?.plus(1)
-        }else{
-            Throwable("FIREBASE COUNTER ERROR")
-        }
+        count += 1
+        car.id = count.toString()
+        carsRef.child(count.toString()).setValue(car)
+        var update = hashMapOf("maxid" to count)
+        cloudFireStore.collection("maxId").document(documentId).set(update)
+        count = count.plus(1)
+
+    }
+
+    override fun removeCar(id: String) {
 
     }
 

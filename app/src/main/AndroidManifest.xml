@@ -24,6 +24,10 @@
         <activity android:name=".View.AddCarActivity">
 
         </activity>
+
+        <activity android:name=".View.EditCarActivity">
+
+        </activity>
     </application>
 
 </manifest>

@@ -14,8 +14,7 @@ import com.example.sportcarsale.Service.addcaractivityviewmodel.AddCarViewModelF
 import com.example.sportcarsale.Service.addcaractivityviewmodel.AddCarsActivityViewModel
 import java.util.*
 
-class AddCarActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
-    View.OnClickListener {
+class EditCarActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private val IMAGE_REQUEST_CODE: Int = 10
     private var imgUri: Uri? = null
@@ -181,14 +180,15 @@ class AddCarActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
 
     private fun addCar(){
         if (!checkParamsEnter()){
-            Toast.makeText(this,"Not all params entered",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Not all params entered", Toast.LENGTH_SHORT).show()
         }else{
             val car = Car(null,brandSpinner.selectedItem.toString(),modelSpinner.selectedItem.toString(),
-            yearEditText.text.toString().toInt(), mileageEditText.text.toString().toInt(),gearTypeSpinner.selectedItem as GearType,
-            priceEditText.text.toString().toInt(),locationEditText.text.toString(),engineVolumeEditText.text.toString().toDouble(),
-            engineTypeSpinner.selectedItem as EngineType, driveSpinner.selectedItem as Drive, sportTypeSpinner.selectedItem as SportType,
-            roadTypeSpinner.selectedItem as RoadType, addCarViewModel.getCurrentUser()?.uid.toString(),UUID.randomUUID().toString(),ownerDescriptionEditText.text.toString(),
-            contactEditText.text.toString())
+                yearEditText.text.toString().toInt(), mileageEditText.text.toString().toInt(),gearTypeSpinner.selectedItem as GearType,
+                priceEditText.text.toString().toInt(),locationEditText.text.toString(),engineVolumeEditText.text.toString().toDouble(),
+                engineTypeSpinner.selectedItem as EngineType, driveSpinner.selectedItem as Drive, sportTypeSpinner.selectedItem as SportType,
+                roadTypeSpinner.selectedItem as RoadType, addCarViewModel.getCurrentUser()?.uid.toString(),
+                UUID.randomUUID().toString(),ownerDescriptionEditText.text.toString(),
+                contactEditText.text.toString())
             addCarViewModel.addPicture(car.photoLink!!, imgUri!!)
             addCarViewModel.addCar(car)
             finish()

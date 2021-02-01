@@ -1,8 +1,10 @@
 package com.example.sportcarsale.Model.data
 
 import com.example.sportcarsale.Model.data.*
+import java.io.Serializable
 
 data class Car(
+    var id: String?,
     var brand: String?,
     var model: String?,
     var productYear: Int?,
@@ -19,4 +21,4 @@ data class Car(
     var photoLink : String?,
     var ownerDescription : String?,
     var ownerContact : String?
-)
+) : Serializable

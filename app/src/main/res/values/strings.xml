@@ -19,4 +19,6 @@
     <string name="add">Add</string>
     <string name="location">Location</string>
     <string name="contact">Contact</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
 </resources>

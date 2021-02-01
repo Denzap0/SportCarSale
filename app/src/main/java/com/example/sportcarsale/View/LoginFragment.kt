@@ -29,6 +29,7 @@ class LoginFragment : Fragment() {
         if(context is AppActivityInterface){
             appActivityInterface = context
         }
+
     }
 
     override fun onCreateView(
@@ -46,9 +47,11 @@ class LoginFragment : Fragment() {
         signInButton = view.findViewById(R.id.signInButton)
         signUpButton = view.findViewById(R.id.signUpButton)
         initViewModel()
-        checkUser()
         signInButton.setOnClickListener {signIn()}
         signUpButton.setOnClickListener {signUp()}
+        if (arguments?.getBoolean("checkUser",false) == true){
+            checkUser()
+        }
     }
 
     private fun signIn(){

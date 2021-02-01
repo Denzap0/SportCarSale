@@ -10,4 +10,6 @@ interface CarsBaseAPI {
     fun getUserCars(user: FirebaseUser)
 
     fun addCar(car : Car)
+
+    fun removeCar(id : String)
 }

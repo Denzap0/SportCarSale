@@ -18,19 +18,20 @@ import com.example.sportcarsale.Service.userfragmentviewmodel.UserFragmentViewMo
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseUser
 
-class UserFragment : Fragment(), View.OnClickListener {
+class UserFragment : Fragment(), View.OnClickListener, EditDeleteListener {
 
-    private lateinit var userActivityListener : AppActivityInterface
+    private lateinit var appActivityListener : AppActivityInterface
     private lateinit var userFragmentViewModel : UserFragmentViewModel
     private lateinit var recyclerView: RecyclerView
-    private val carsListAdapter = CarsListAdapter { car -> userActivityListener.openCarFragment(car) }
+    private val carsListAdapter = UserCarsListAdapter( { car -> appActivityListener.openCarFragment(car) },this)
     private lateinit var userEmailTextView : TextView
     private lateinit var addCarButton : FloatingActionButton
+    private lateinit var logOutButton : Button
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if(context is AppActivityInterface){
-            userActivityListener = context
+            appActivityListener = context
         }
     }
 
@@ -46,7 +47,9 @@ class UserFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         userEmailTextView = view.findViewById(R.id.userEmailTextView)
         addCarButton = view.findViewById(R.id.addCarFloatingActionButton)
+        logOutButton = view.findViewById(R.id.logOutButton)
         addCarButton.setOnClickListener(this)
+        logOutButton.setOnClickListener (this)
         initRecyclerView(view)
         initViewModel()
         userFragmentViewModel.fetchUserCars()
@@ -69,7 +72,7 @@ class UserFragment : Fragment(), View.OnClickListener {
     }
 
     private fun showCars(carsList : List<Car>){
-        carsListAdapter.setCarsList(carsList.toMutableList())
+        carsListAdapter.setCarsList(carsList)
     }
 
     private fun showUserInfo(user : FirebaseUser){
@@ -77,8 +80,21 @@ class UserFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        if(v?.id == addCarButton.id){
-            startActivity(Intent(this@UserFragment.context,AddCarActivity::class.java))
+        when(v?.id){
+            R.id.addCarFloatingActionButton -> startAddCarActivity()
+            R.id.logOutButton -> appActivityListener.openLoginFragment()
         }
+    }
+
+    private fun startAddCarActivity(){
+        startActivity(Intent(this@UserFragment.context,AddCarActivity::class.java))
+    }
+
+    override fun edit(car: Car) {
+
+    }
+
+    override fun delete(car: Car) {
+
     }
 }

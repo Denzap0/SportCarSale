@@ -1,6 +1,8 @@
 package com.example.sportcarsale.View
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +10,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.sportcarsale.Model.data.Car
 import com.example.sportcarsale.R
+import com.example.sportcarsale.Service.carfragmentviewmodel.CarFragmentViewModel
 
 class CarFragment(private val car : Car) : Fragment() {
     private lateinit var carPhotoImageView : ImageView
@@ -18,6 +22,7 @@ class CarFragment(private val car : Car) : Fragment() {
     private lateinit var carUsualDescriptionTextView: TextView
     private lateinit var carOwnerDescriptionTextView: TextView
     private lateinit var ownerContactTextView: TextView
+    private lateinit var viewModel : CarFragmentViewModel
     override fun onAttach(context: Context) {
         super.onAttach(context)
     }
@@ -36,11 +41,12 @@ class CarFragment(private val car : Car) : Fragment() {
         carUsualDescriptionTextView = view.findViewById(R.id.usualDescriptionText)
         carOwnerDescriptionTextView = view.findViewById(R.id.ownerDescriptionText)
         ownerContactTextView = view.findViewById(R.id.contactTextView)
+        initViewModel()
         showCar(view)
     }
 
     private fun showCar(view : View){
-        Glide.with(view.context).load(car.photoLink).into(carPhotoImageView)
+        car.photoLink?.let { viewModel.getImageBitmap(it) }
         carNameTextView.text = (car.brand + " " + car.model)
         carUsualDescriptionTextView.text = (car.productYear.toString() + ", "
                 + car.gearType + ", " + car.engineVolume + ", " + car.engineType + ", " +
@@ -48,5 +54,13 @@ class CarFragment(private val car : Car) : Fragment() {
         carOwnerDescriptionTextView.text = car.ownerDescription
         ownerContactTextView.text = car.ownerContact
 
+    }
+
+    private fun setBitmap(bitmap : Bitmap){
+        carPhotoImageView.setImageBitmap(bitmap)
+    }
+    private fun initViewModel(){
+        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(CarFragmentViewModel::class.java)
+        viewModel.bitmapLiveData.observe(this,{bitmap -> setBitmap(bitmap)})
     }
 }

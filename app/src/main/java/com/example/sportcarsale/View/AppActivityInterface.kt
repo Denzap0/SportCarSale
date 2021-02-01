@@ -7,5 +7,7 @@ interface AppActivityInterface {
 
     fun openUserFragment()
 
+    fun openLoginFragment()
+
     fun showErrorInToast(message : String)
 }

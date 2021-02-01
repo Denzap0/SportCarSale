@@ -56,6 +56,6 @@ class AllCarsFragment : Fragment(), AllCarsFragmentInterface {
     }
 
     override fun showCars(cars: List<Car>) {
-        carsListAdapter.setCarsList(cars.toMutableList())
+        carsListAdapter.setCarsList(cars)
     }
 }

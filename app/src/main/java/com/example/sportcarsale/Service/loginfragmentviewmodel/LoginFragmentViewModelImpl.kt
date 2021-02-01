@@ -1,5 +1,6 @@
 package com.example.sportcarsale.Service.loginfragmentviewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,6 +32,7 @@ class LoginFragmentViewModelImpl : ViewModel() {
                 if (task.isSuccessful) {
                     userMutLiveData.value = authAPI.currentUser
                 } else {
+                    Log.d("AAAAAAA", task.exception?.message.toString())
                     errorMutLiveData.value = "Sign up error"
                 }
             }

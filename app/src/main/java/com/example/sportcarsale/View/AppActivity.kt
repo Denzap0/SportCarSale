@@ -38,11 +38,23 @@ class AppActivity : AppCompatActivity(), AppActivityInterface {
     }
 
     private fun startLoginFragment(){
-        supportFragmentManager.beginTransaction().replace(R.id.fragmentLayout, LoginFragment(), "LoginFragment").commit()
+        val myFragment = LoginFragment()
+        val checkUser = this.getSharedPreferences("checkUser", MODE_PRIVATE).getBoolean("checkUser",false)
+        val bundle = Bundle().apply {
+            putBoolean("checkUser",checkUser)
+        }
+        myFragment.arguments = bundle
+        supportFragmentManager.beginTransaction().replace(R.id.fragmentLayout, myFragment, "LoginFragment").commit()
     }
 
     override fun openUserFragment() {
+        this.getSharedPreferences("checkUser", MODE_PRIVATE).edit().putBoolean("checkUser",true).apply()
         supportFragmentManager.beginTransaction().replace(R.id.fragmentLayout,UserFragment(),"UserFragment").commit()
+    }
+
+    override fun openLoginFragment() {
+        this.getSharedPreferences("checkUser", MODE_PRIVATE).edit().putBoolean("checkUser",false).apply()
+        supportFragmentManager.beginTransaction().replace(R.id.fragmentLayout,LoginFragment(),"LoginFragment").commit()
     }
 
     override fun showErrorInToast(message: String) {
