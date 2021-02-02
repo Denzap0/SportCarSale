@@ -14,15 +14,16 @@ import com.example.sportcarsale.R
 import com.example.sportcarsale.Service.allcarsfragmentviewmodel.AllCarsFragmentViewModelImpl
 
 class AllCarsFragment : Fragment(), AllCarsFragmentInterface {
-    private lateinit var allCarsFragmentViewModel : AllCarsFragmentViewModelImpl
-
+    private lateinit var allCarsFragmentViewModel: AllCarsFragmentViewModelImpl
     private lateinit var recyclerView: RecyclerView
-    private val carsListAdapter = CarsListAdapter { car -> appActivityInterface?.openCarFragment(car) }
+    private val carsListAdapter =
+        CarsListAdapter { car -> appActivityInterface?.openCarFragment(car) }
     private var appActivityInterface: AppActivityInterface? = null
+    private lateinit var allCarsList: List<Car>
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(context is AppActivityInterface){
+        if (context is AppActivityInterface) {
             appActivityInterface = context
         }
     }
@@ -32,7 +33,7 @@ class AllCarsFragment : Fragment(), AllCarsFragmentInterface {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.cars_list_fragment,container,false)
+        return inflater.inflate(R.layout.cars_list_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,20 +43,25 @@ class AllCarsFragment : Fragment(), AllCarsFragmentInterface {
         allCarsFragmentViewModel.fetchCarsList()
     }
 
-    private fun initViewModel(){
-        allCarsFragmentViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(AllCarsFragmentViewModelImpl::class.java)
-        allCarsFragmentViewModel.allCarsLiveData?.observe(viewLifecycleOwner, {carsList -> showCars(carsList)})
+    private fun initViewModel() {
+        allCarsFragmentViewModel =
+            ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+                AllCarsFragmentViewModelImpl::class.java
+            )
+        allCarsFragmentViewModel.allCarsLiveData?.observe(viewLifecycleOwner, { carsList -> showCars(carsList) })
     }
 
-    private fun initRecyclerView(view: View){
+    private fun initRecyclerView(view: View) {
         recyclerView = view.findViewById(R.id.carsRecyclerView)
         recyclerView.apply {
             adapter = carsListAdapter
-            layoutManager = LinearLayoutManager(this@AllCarsFragment.context, RecyclerView.VERTICAL, false)
+            layoutManager =
+                LinearLayoutManager(this@AllCarsFragment.context, RecyclerView.VERTICAL, false)
         }
     }
 
     override fun showCars(cars: List<Car>) {
         carsListAdapter.setCarsList(cars)
     }
+
 }

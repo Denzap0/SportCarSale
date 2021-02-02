@@ -17,7 +17,10 @@
             android:id="@+id/userEmailTextView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="50"/>
+            android:layout_weight="50"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:textSize="24sp"/>
 
     <Button
         android:id="@+id/logOutButton"

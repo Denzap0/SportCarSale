@@ -21,4 +21,14 @@
     <string name="contact">Contact</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="filterList">FilterList</string>
+    <string name="year_from">Year from</string>
+    <string name="year_to">Year to</string>
+    <string name="price_from">Price from</string>
+    <string name="price_to">Price to</string>
+    <string name="engine_vol_from">Engine vol. from</string>
+    <string name="engine_vol_to">Engine vol. to</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="auto_login">Auto login</string>
 </resources>

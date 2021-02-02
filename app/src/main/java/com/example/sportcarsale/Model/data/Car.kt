@@ -1,6 +1,6 @@
 package com.example.sportcarsale.Model.data
 
-import com.example.sportcarsale.Model.data.*
+import com.example.sportcarsale.Model.data.carparams.*
 import java.io.Serializable
 
 data class Car(

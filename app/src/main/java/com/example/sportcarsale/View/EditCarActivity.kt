@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.sportcarsale.Model.data.*
+import com.example.sportcarsale.Model.data.carparams.*
 import com.example.sportcarsale.R
 import com.example.sportcarsale.Service.addcaractivityviewmodel.AddCarViewModelFactory
 import com.example.sportcarsale.Service.addcaractivityviewmodel.AddCarsActivityViewModel
@@ -236,12 +237,13 @@ class EditCarActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,
         if (!checkParamsEnter()){
             Toast.makeText(this,"Not all params entered", Toast.LENGTH_SHORT).show()
         }else{
-            val car = Car(this@EditCarActivity.car.id,brandSpinner.selectedItem.toString(),modelSpinner.selectedItem.toString(),
+            val car = Car(
+                car.id,brandSpinner.selectedItem.toString(),modelSpinner.selectedItem.toString(),
                 yearEditText.text.toString().toInt(), mileageEditText.text.toString().toInt(),gearTypeSpinner.selectedItem as GearType,
                 priceEditText.text.toString().toInt(),locationEditText.text.toString(),engineVolumeEditText.text.toString().toDouble(),
                 engineTypeSpinner.selectedItem as EngineType, driveSpinner.selectedItem as Drive, sportTypeSpinner.selectedItem as SportType,
                 roadTypeSpinner.selectedItem as RoadType, addCarViewModel.getCurrentUser()?.uid.toString(),
-                if(imgUri == null)this@EditCarActivity.car.photoLink else UUID.randomUUID().toString(),ownerDescriptionEditText.text.toString(),
+                if(imgUri == null) car.photoLink else UUID.randomUUID().toString(),ownerDescriptionEditText.text.toString(),
                 contactEditText.text.toString())
             if(imgUri != null) {
                 addCarViewModel.addPicture(car.photoLink!!, imgUri!!)

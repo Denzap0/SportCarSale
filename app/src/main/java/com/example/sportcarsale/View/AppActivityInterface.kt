@@ -9,5 +9,7 @@ interface AppActivityInterface {
 
     fun openLoginFragment()
 
+    fun openSettingsFragment()
+
     fun showErrorInToast(message : String)
 }
