@@ -27,7 +27,7 @@ class SettingsFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
         if (this.context != null) {
             autoLoginSwitchCompat.isChecked =
                 this.context?.getSharedPreferences("autoLogin", Context.MODE_PRIVATE)
-                    ?.getBoolean("autoLogin", false)!!
+                    ?.getBoolean("autoLogin", true)!!
         }
         autoLoginSwitchCompat.setOnCheckedChangeListener(this)
     }
