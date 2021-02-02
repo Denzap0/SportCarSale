@@ -66,7 +66,7 @@ class CarsBaseAPIImpl() : CarsBaseAPI {
         allCarsMutLiveData.value = carsList
     }
 
-    private fun updateUserCars(snapshot: DataSnapshot, user : FirebaseUser) {
+    private fun updateUserCars(snapshot: DataSnapshot, user: FirebaseUser) {
         val userCarsList = mutableListOf<Car>()
         snapshot.children.forEach { car ->
             if (car.child("ownerUID").getValue(String::class.java) == user.uid) {
@@ -109,7 +109,7 @@ class CarsBaseAPIImpl() : CarsBaseAPI {
     }
 
     override fun getUserCars(user: FirebaseUser) {
-        carsRef.addValueEventListener(object : ValueEventListener{
+        carsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 updateUserCars(snapshot, user)
             }
@@ -123,17 +123,19 @@ class CarsBaseAPIImpl() : CarsBaseAPI {
 
 
     override fun addCar(car: Car) {
-        count += 1
-        car.id = count.toString()
-        carsRef.child(count.toString()).setValue(car)
+        if (car.id == null) {
+            count += 1
+            car.id = count.toString()
+        }
+        carsRef.child(car.id!!).setValue(car)
         var update = hashMapOf("maxid" to count)
         cloudFireStore.collection("maxId").document(documentId).set(update)
         count = count.plus(1)
 
     }
 
-    override fun removeCar(id: String) {
-
+    override fun removeCar(car: Car) {
+        car.id?.let { carsRef.child(it).removeValue() }
     }
 
 

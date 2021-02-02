@@ -11,5 +11,5 @@ interface CarsBaseAPI {
 
     fun addCar(car : Car)
 
-    fun removeCar(id : String)
+    fun removeCar(car : Car)
 }

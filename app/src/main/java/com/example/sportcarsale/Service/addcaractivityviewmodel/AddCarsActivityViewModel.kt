@@ -1,6 +1,9 @@
 package com.example.sportcarsale.Service.addcaractivityviewmodel
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.sportcarsale.Model.carsbaseapi.CarsBaseAPIImpl
@@ -24,13 +27,25 @@ class AddCarsActivityViewModel(private val inputStreamJson : InputStream) : View
     val modelsLiveData = modelsMutLiveData
     private val auth = FirebaseAuth.getInstance()
     private val storageRef = FirebaseStorage.getInstance().reference
+    private val bitmapMutLiveData = MutableLiveData<Bitmap>()
+    val bitmapLiveData : LiveData<Bitmap> = bitmapMutLiveData
 
     fun addCar(car : Car){
         carsBaseAPI.addCar(car)
     }
 
+    fun deleteCar(car : Car){
+        carsBaseAPI.removeCar(car)
+    }
+
     fun addPicture(uuid: String, pictureUri : Uri){
         storageRef.child(uuid).putFile(pictureUri)
+    }
+
+    fun getPicture(uuid : String){
+        storageRef.child(uuid).getBytes(1024*1024).addOnSuccessListener {
+            bitmapMutLiveData.value = BitmapFactory.decodeByteArray(it,0,it.size)
+        }
     }
 
     fun getCarBrands(){

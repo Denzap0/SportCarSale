@@ -91,10 +91,12 @@ class UserFragment : Fragment(), View.OnClickListener, EditDeleteListener {
     }
 
     override fun edit(car: Car) {
-
+        val intent = Intent(this@UserFragment.context,EditCarActivity::class.java)
+        intent.putExtra("car", car)
+        startActivity(intent)
     }
 
     override fun delete(car: Car) {
-
+        userFragmentViewModel.removeCar(car)
     }
 }
